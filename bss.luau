@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V3",
+	Subtitle = "Bee Swarm Simulator V4",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -16,7 +16,7 @@ local tabGroups = {
 }
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Automatic" }),
-    Exploits = tabGroups.TabGroup1:Tab({ Name = "Exploits" }),
+    Exploits = tabGroups.TabGroup1:Tab({ Name = "Exploits / Useful" }),
     Other = tabGroups.TabGroup1:Tab({ Name = "Other" }),
     Teleports = tabGroups.TabGroup1:Tab({ Name = "Teleports" }),
     Information = tabGroups.TabGroup1:Tab({ Name = "Information" }),
@@ -32,6 +32,9 @@ local sections = {
     MainSection7 = tabs.Teleports:Section({ Side = "Left" }),
     MainSection8 = tabs.Information:Section({ Side = "Left" }),
 	MainSection9 = tabs.Tutor:Section({ Side = "Left" }),
+    MainSection10 = tabs.Other:Section({ Side = "Left" }),
+    MainSection11 = tabs.Teleports:Section({ Side = "Right" }),
+    MainSection12 = tabs.Main:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -54,6 +57,15 @@ sections.MainSection7:Header({
 sections.MainSection9:Header({
 	Name = "Tutorial on Functions"
 })
+sections.MainSection10:Header({
+	Name = "Collecting"
+})
+sections.MainSection11:Header({
+	Name = "Shops"
+})
+sections.MainSection12:Header({
+	Name = "Auto Buy with Tickets"
+})
 local plr = game.Players.LocalPlayer
 local adig = nil
 local afarm = nil
@@ -74,7 +86,7 @@ local targetobj = nil
 local path = nil
 local movtype = nil
 local Dropdown = sections.MainSection5:Dropdown({
-	Name = "Type",
+	Name = "Mode",
 	Multi = false,
 	Required = true,
 	Options = {"Legit", "Fast"},
@@ -92,6 +104,17 @@ for _, i in pairs(workspace.Honeycombs:GetDescendants()) do
         localhive = i.Parent.Name
     end
 end
+local convtype = nil
+local Dropdown = sections.MainSection6:Dropdown({
+	Name = "Mode",
+	Multi = false,
+	Required = true,
+	Options = {"Hive", "Micro-Converter"},
+	Default = "Hive",
+	Callback = function(Value)
+		convtype = Value
+	end,
+}, "Dropdown")
 sections.MainSection6:Toggle({
 	Name = "Auto Convert",
 	Default = false,
@@ -106,7 +129,7 @@ sections.MainSection6:Toggle({
             end
         end
         while getgenv().aconv and task.wait() do
-            if plr.CoreStats.Pollen.Value == plr.CoreStats.Capacity.Value or plr.CoreStats.Pollen.Value > plr.CoreStats.Capacity.Value then
+            if convtype == "Hive" and plr.CoreStats.Pollen.Value == plr.CoreStats.Capacity.Value or plr.CoreStats.Pollen.Value > plr.CoreStats.Capacity.Value then
                 if turn == 1 then
                     for i = 0, 10 do
                         plr.Character.PrimaryPart.CFrame = CFrame.new(workspace.Honeycombs[localhive].patharrow:WaitForChild("Base").Position) + Vector3.new(0, 0.4, 0)
@@ -119,8 +142,10 @@ sections.MainSection6:Toggle({
                         turn = 0
                     end
 	            end
-	        
-	        end
+
+            elseif plr.CoreStats.Pollen.Value == plr.CoreStats.Capacity.Value or plr.CoreStats.Pollen.Value > plr.CoreStats.Capacity.Value and convtype == "Micro-Converter" then
+                game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PlayerActivesCommand"):FireServer({ Name = "Micro-Converter" })
+            end
 	        if plr.CoreStats.Pollen.Value == 0 then
 	            task.wait(8.32)
                 plr.Character.PrimaryPart.CFrame = prevpos
@@ -221,29 +246,30 @@ sections.MainSection2:Button({
 	end,
 }, "Button")
 local prevatp = nil
-sections.MainSection2:Toggle({
-	Name = "Anti Teleport to Spawn",
+local antitp = true
+sections.MainSection4:Toggle({
+	Name = "Anti Spawn [Bypasser]",
 	Default = false,
 	Callback = function(value)
 	    getgenv().atp = value
-        prevatp = plr.Character.PrimaryPart.CFrame
-	    if getgenv().atp then
-            workspace:FindFirstChildOfClass("SpawnLocation").Touched:Connect(function(who)
-                if who.Parent.Name == plr.Name then
-                    plr.Character.PrimaryPart.CFrame = prevatp
-                    task.wait()
-                    prevatp = plr.Character.PrimaryPart.CFrame
-                end
-            end)
+	    while getgenv().atp and task.wait() and antitp do
+            if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 5 then
+                antitp = false
+                task.wait()
+                antitp = true
+                task.wait()
+                plr.Character.PrimaryPart.CFrame = prevatp
+            end
+            prevatp = plr.Character.PrimaryPart.CFrame
         end
-	end,
+    end,
 }, "Toggle")
 
 sections.MainSection3:Slider({
 	Name = "Walk Speed",
 	Default = 15,
 	Minimum = 1,
-	Maximum = 150,
+	Maximum = 250,
 	DisplayMethod = "Speed",
 	Precision = 0,
 	Callback = function(Value)
@@ -254,7 +280,7 @@ sections.MainSection3:Slider({
 	Name = "Jump Boost",
 	Default = 15,
 	Minimum = 1,
-	Maximum = 150,
+	Maximum = 250,
 	DisplayMethod = "Speed",
 	Precision = 0,
 	Callback = function(Value)
@@ -297,7 +323,7 @@ local targtype = nil
 local pos1targ = CFrame.new(-303, 71, 442)
 local pos2targ = CFrame.new(-224, 71, 443)
 local Dropdown = sections.MainSection4:Dropdown({
-	Name = "Type",
+	Name = "Mode",
 	Multi = false,
 	Required = true,
 	Options = {"All Mobs", "Crab(works until the first coconut attack)"},
@@ -371,6 +397,105 @@ sections.MainSection7:Button({
         end
 	end,
 })
+local curshop = nil
+local Dropdown = sections.MainSection11:Dropdown({
+	Name = "Current Shop",
+	Multi = false,
+	Required = true,
+	Options = {0,"0(2)", 10, "10(2)", 25, 35, "Red", "Blue", "Yellow", "Star Amulet", "Moon Amulet"},
+	Default = 0,
+	Callback = function(Value)
+		curshop = Value
+	end,
+}, "Dropdown")
+local b1 = CFrame.new(59, 2, 293)
+local b2 = CFrame.new(-233, 15, 372)
+local bred = CFrame.new(-287, 18, 214)
+local bblue = CFrame.new(250, 2, 96)
+local byellow = CFrame.new(-368, 79, -72)
+local b6 = CFrame.new(164, 66, -137)
+local bspec = CFrame.new(461, 135, -316)
+local b8 = CFrame.new(-18, 174, -177)
+local b9 = CFrame.new(-499, 49, 409)
+local b10 = CFrame.new(121, 63, 285)
+local bmoon = CFrame.new(22, 85, -54)
+sections.MainSection11:Button({
+	Name = "Teleport",
+	Callback = function()
+        if curshop == 0 then
+            plr.Character.PrimaryPart.CFrame = b1
+        elseif curshop == "0(2)" then
+            plr.Character.PrimaryPart.CFrame = b2
+        elseif curshop == "Red" then
+            plr.Character.PrimaryPart.CFrame = bred
+        elseif curshop == "Blue" then
+            plr.Character.PrimaryPart.CFrame = bblue
+        elseif curshop == "Yellow" then
+            plr.Character.PrimaryPart.CFrame = byellow
+        elseif curshop == 10 then
+            plr.Character.PrimaryPart.CFrame = b6
+        elseif curshop == "10(2)" then
+            plr.Character.PrimaryPart.CFrame = bspec 
+        elseif curshop == 25 then
+            plr.Character.PrimaryPart.CFrame = b8
+        elseif curshop == "Star Amulet" then
+            plr.Character.PrimaryPart.CFrame = b10
+        elseif curshop == 35 then
+            plr.Character.PrimaryPart.CFrame = b9
+        elseif curshop == "Moon Amulet" then
+            plr.Character.PrimaryPart.CFrame = bmoon
+        end
+	end,
+})
+local path = nil
+sections.MainSection10:Toggle({
+	Name = "Collect all Stickers",
+	Default = false,
+	Callback = function(value)
+	    getgenv().acollectstic = value
+        while acollectstic and task.wait(0.1) do 
+            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(1)
+        end
+    end,
+}, "Toggle")
+sections.MainSection12:Toggle({
+	Name = "Auto Buy Gumdrops",
+	Default = false,
+	Callback = function(value)
+	    getgenv().abuygum = value
+	    while getgenv().abuygum and task.wait() do
+	        local args = {
+                "Purchase",
+                {
+                    Type = "Gumdrops",
+                    Category = "Eggs",
+                    Amount = 3
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ItemPackageEvent"):InvokeServer(unpack(args))
+
+	    end
+	end,
+}, "Toggle")
+sections.MainSection12:Toggle({
+	Name = "Auto Buy Stingers",
+	Default = false,
+	Callback = function(value)
+	    getgenv().abuysting = value
+	    while getgenv().abuysting and task.wait() do
+	        local args = {
+                "Purchase",
+                {
+                    Type = "Stinger",
+                    Category = "Eggs",
+                    Amount = 1
+                }
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ItemPackageEvent"):InvokeServer(unpack(args))
+
+	    end
+	end,
+}, "Toggle")
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
@@ -387,7 +512,7 @@ sections.MainSection8:Label({
 	Text = "Developed by yyep"
 })
 sections.MainSection8:Label({
-	Text = "Total functional: 12 functions"
+	Text = "Total functional: 16 functions"
 })
 sections.MainSection9:Label({
 	Text = "Activate the Passive Movement at the Center Field ONLY(otherwise, the script may exit the field)"
@@ -396,5 +521,5 @@ sections.MainSection9:Label({
 	Text = "To move in Magic Body you need to click on mouse"
 })
 sections.MainSection9:Label({
-	Text = "Before activate the Anti Teleport to Spawn you need to stay in desired position where you will be teleported"
+	Text = "Anti Spawn allows you to stay in locked locations"
 })
