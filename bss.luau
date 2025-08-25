@@ -164,6 +164,8 @@ sections.MainSection5:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().afarm = value
+        passivetoggle = true
+		amovturn = true
         while getgenv().afarm and task.wait(0.08) do
             for _, targetobj in pairs(workspace.Collectibles:GetChildren()) do
                 if (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Legit" and turnmov and amovturn then
@@ -190,6 +192,7 @@ sections.MainSection5:Toggle({
         center = plr.Character.PrimaryPart.Position
         getgenv().passiv = value
         print(passiv)
+        passivetoggle = true
         while task.wait(0.15) and passiv do
             randompos = Vector3.new(plr.Character.PrimaryPart.Position.X + math.random(-35, 35), plr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z + math.random(-35, 35))
             if (randompos - center).Magnitude < 35 and movtype == "Legit" and passivetoggle then
