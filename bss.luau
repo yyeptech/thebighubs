@@ -202,7 +202,7 @@ sections.MainSection5:Toggle({
     end,
 }, "Toggle")
 sections.MainSection2:Button({
-	Name = "Anti Barrier",
+	Name = "Remove all Barriers",
 	Default = false,
 	Callback = function()
 	    for _, i in pairs(workspace.Gates:GetDescendants()) do
@@ -315,7 +315,7 @@ sections.MainSection4:Toggle({
                 task.wait()
                 plr.Character.PrimaryPart.Anchored = false
                 task.wait(0.003)
-            elseif targtype == "Crab [IN DEV]" then
+            elseif targtype == "Crab(until the first coconut attack)" then
                 plr.Character.PrimaryPart.CFrame = pos1targ
                 task.wait()
                 plr.Character.PrimaryPart.Anchored = true
