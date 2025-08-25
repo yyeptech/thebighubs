@@ -523,3 +523,6 @@ sections.MainSection9:Label({
 sections.MainSection9:Label({
 	Text = "Anti Spawn allows you to stay in locked locations"
 })
+sections.MainSection9:Label({
+	Text = "Emergency Movement activates when script stopped(when player not on the field)"
+})
