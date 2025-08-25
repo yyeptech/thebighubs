@@ -503,6 +503,9 @@ if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
+	sections.MainSection8:Label({
+		Text = "Release Build"
+	})
 else 
     sections.MainSection8:Label({
         Text = "Source/Dev Build"
