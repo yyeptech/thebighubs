@@ -502,7 +502,7 @@ if tostring(getgenv().invitecode) ~= "nil" then
     })
 else 
     sections.MainSection8:Label({
-        Text = "Dev Build"
+        Text = "Source/Dev Build"
     })
 end
 sections.MainSection8:Label({
