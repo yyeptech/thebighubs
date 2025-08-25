@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V2.7",
+	Subtitle = "Bee Swarm Simulator V3",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -20,6 +20,7 @@ local tabs = {
     Other = tabGroups.TabGroup1:Tab({ Name = "Other" }),
     Teleports = tabGroups.TabGroup1:Tab({ Name = "Teleports" }),
     Information = tabGroups.TabGroup1:Tab({ Name = "Information" }),
+	Tutor = tabGroups.TabGroup1:Tab({ Name = "Tutorial" }),
 }
 local sections = {
 	MainSection1 = tabs.Main:Section({ Side = "Left" }),
@@ -30,6 +31,7 @@ local sections = {
 	MainSection6 = tabs.Main:Section({ Side = "Left" }),
     MainSection7 = tabs.Teleports:Section({ Side = "Left" }),
     MainSection8 = tabs.Information:Section({ Side = "Left" }),
+	MainSection9 = tabs.Tutor:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -48,6 +50,9 @@ sections.MainSection6:Header({
 })
 sections.MainSection7:Header({
 	Name = "Locations"
+})
+sections.MainSection9:Header({
+	Name = "Tutorial on Functions"
 })
 local plr = game.Players.LocalPlayer
 local adig = nil
@@ -128,6 +133,7 @@ sections.MainSection6:Toggle({
 	end,
 }, "Toggle")
 local passivetoggle = true
+local amovturn = true
 sections.MainSection5:Toggle({
 	Name = "Auto Movement",
 	Default = false,
@@ -135,11 +141,13 @@ sections.MainSection5:Toggle({
 	    getgenv().afarm = value
         while getgenv().afarm and task.wait(0.08) do
             for _, targetobj in pairs(workspace.Collectibles:GetChildren()) do
-                if (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Legit" and turnmov then
-                    passivetoggle = false
+                if (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Legit" and turnmov and amovturn then
+                    amovturn = false
+					passivetoggle = false
                     plr.Character.Humanoid:MoveTo(targetobj.Position)
                     plr.Character.Humanoid.MoveToFinished:Connect(function()
                         passivetoggle = true
+						amovturn = true
                     end)
                 elseif (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Fast" and turnmov then
                     plr.Character.PrimaryPart.CFrame = CFrame.new(targetobj.Position) + Vector3.new(0, -2, 0)
@@ -256,7 +264,7 @@ sections.MainSection3:Slider({
 
 local MagicPrev = nil
 sections.MainSection4:Toggle({
-	Name = "Magic Body",
+	Name = "Magic Body [PC Only]",
 	Default = false,
 	Callback = function(value)
 	    getgenv().magic = value
@@ -292,7 +300,7 @@ local Dropdown = sections.MainSection4:Dropdown({
 	Name = "Type",
 	Multi = false,
 	Required = true,
-	Options = {"All Mobs", "Crab [IN DEV]"},
+	Options = {"All Mobs", "Crab(works until the first coconut attack)"},
 	Default = "All Mobs",
 	Callback = function(Value)
 		targtype = Value
@@ -315,7 +323,7 @@ sections.MainSection4:Toggle({
                 task.wait()
                 plr.Character.PrimaryPart.Anchored = false
                 task.wait(0.003)
-            elseif targtype == "Crab(until the first coconut attack)" then
+            elseif targtype == "Crab(works until the first coconut attack)" then
                 plr.Character.PrimaryPart.CFrame = pos1targ
                 task.wait()
                 plr.Character.PrimaryPart.Anchored = true
@@ -380,4 +388,13 @@ sections.MainSection8:Label({
 })
 sections.MainSection8:Label({
 	Text = "Total functional: 12 functions"
+})
+sections.MainSection9:Label({
+	Text = "Activate the Passive Movement at the Center Field ONLY(otherwise, the script may exit the field)"
+})
+sections.MainSection9:Label({
+	Text = "To move in Magic Body you need to click on mouse"
+})
+sections.MainSection9:Label({
+	Text = "Before activate the Anti Teleport to Spawn you need to stay in desired position where you will be teleported"
 })
