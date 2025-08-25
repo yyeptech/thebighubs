@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V4",
+	Subtitle = "Bee Swarm Simulator V4.1",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -35,6 +35,7 @@ local sections = {
     MainSection10 = tabs.Other:Section({ Side = "Left" }),
     MainSection11 = tabs.Teleports:Section({ Side = "Right" }),
     MainSection12 = tabs.Main:Section({ Side = "Left" }),
+    MainSection13 = tabs.Other:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -65,6 +66,9 @@ sections.MainSection11:Header({
 })
 sections.MainSection12:Header({
 	Name = "Auto Buy with Tickets"
+})
+sections.MainSection13:Header({
+	Name = "Anti AFK"
 })
 local plr = game.Players.LocalPlayer
 local adig = nil
@@ -499,17 +503,30 @@ sections.MainSection12:Toggle({
 	    end
 	end,
 }, "Toggle")
+local afk = game:GetService("VirtualUser")
+sections.MainSection13:Toggle({
+	Name = "Anti AFK",
+	Default = false,
+	Callback = function(value)
+	    getgenv().aafk = value
+	    while getgenv().aafk and task.wait(3) do
+            afk:CaptureController()
+            afk:ClickButton1(Vector2.new())
+            print("anti afk working")
+        end
+	end,
+}, "Toggle")
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
 else 
     sections.MainSection8:Label({
-        Text = "Source/Dev Build"
+        Text = "Build: Source/Dev"
     })
 end
 sections.MainSection8:Label({
-    Text = "Early Access Build"
+    Text = "Build: Early Access"
 })
 sections.MainSection8:Label({
 	Text = "Our Discord: discord.gg/XAqn48p6Jm"
