@@ -509,6 +509,9 @@ else
     })
 end
 sections.MainSection8:Label({
+    Text = "Early Access Build"
+})
+sections.MainSection8:Label({
 	Text = "Our Discord: discord.gg/XAqn48p6Jm"
 })
 sections.MainSection8:Label({
