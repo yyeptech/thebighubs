@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V4.1",
+	Subtitle = "Bee Swarm Simulator V4.2",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -19,6 +19,7 @@ local tabs = {
     Exploits = tabGroups.TabGroup1:Tab({ Name = "Exploits / Useful" }),
     Other = tabGroups.TabGroup1:Tab({ Name = "Other" }),
     Teleports = tabGroups.TabGroup1:Tab({ Name = "Teleports" }),
+    Disps = tabGroups.TabGroup1:Tab({ Name = "Dispensers" }),
     Information = tabGroups.TabGroup1:Tab({ Name = "Information" }),
 	Tutor = tabGroups.TabGroup1:Tab({ Name = "Tutorial" }),
 }
@@ -34,8 +35,9 @@ local sections = {
 	MainSection9 = tabs.Tutor:Section({ Side = "Left" }),
     MainSection10 = tabs.Other:Section({ Side = "Left" }),
     MainSection11 = tabs.Teleports:Section({ Side = "Right" }),
-    MainSection12 = tabs.Main:Section({ Side = "Left" }),
+    MainSection12 = tabs.Main:Section({ Side = "Right" }),
     MainSection13 = tabs.Other:Section({ Side = "Left" }),
+    MainSection14 = tabs.Disps:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -69,6 +71,9 @@ sections.MainSection12:Header({
 })
 sections.MainSection13:Header({
 	Name = "Anti AFK"
+})
+sections.MainSection14:Header({
+	Name = "Items"
 })
 local plr = game.Players.LocalPlayer
 local adig = nil
@@ -262,10 +267,8 @@ sections.MainSection4:Toggle({
 	    while getgenv().atp and task.wait() and antitp do
             if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 5 then
                 antitp = false
-                task.wait()
-                antitp = true
-                task.wait()
                 plr.Character.PrimaryPart.CFrame = prevatp
+                antitp = true
             end
             prevatp = plr.Character.PrimaryPart.CFrame
         end
@@ -516,6 +519,18 @@ sections.MainSection13:Toggle({
         end
 	end,
 }, "Toggle")
+sections.MainSection14:Button({
+	Name = "Activate all Dispensers",
+	Callback = function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Treat Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Honey Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Blueberry Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Strawberry Dispenser")
+    end,
+})
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
@@ -535,7 +550,7 @@ sections.MainSection8:Label({
 	Text = "Developed by yyep"
 })
 sections.MainSection8:Label({
-	Text = "Total functional: 16 functions"
+	Text = "Total functional: 18 functions"
 })
 sections.MainSection9:Label({
 	Text = "Activate the Passive Movement at the Center Field ONLY(otherwise, the script may exit the field)"
