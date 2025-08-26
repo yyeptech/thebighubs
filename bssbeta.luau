@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V4.3",
+	Subtitle = "Bee Swarm Simulator V4.4",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -185,9 +185,9 @@ sections.MainSection5:Toggle({
                     amovturn = false
 					passivetoggle = false
                     plr.Character.Humanoid:MoveTo(targetobj.Position)
-                    plr.Character.Humanoid.MoveToFinished:Connect(function()
+                    targetobj.Destroying:Connect(function()
                         passivetoggle = true
-						amovturn = true
+                        amovturn = true
                     end)
                 elseif (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Fast" and turnmov then
                     plr.Character.PrimaryPart.CFrame = CFrame.new(targetobj.Position) + Vector3.new(0, -2, 0)
@@ -196,8 +196,13 @@ sections.MainSection5:Toggle({
 	    end
 	end,
 }, "Toggle")
+plr.Character.Humanoid.MoveToFinished:Connect(function()
+    passivetoggle = true
+	amovturn = true
+end)
 local randompos = nil
 local center = nil
+
 sections.MainSection5:Toggle({
 	Name = "Passive Movement",
 	Default = false,
@@ -461,13 +466,18 @@ sections.MainSection11:Button({
 	end,
 })
 local path = nil
+local ir = 1
 sections.MainSection10:Toggle({
 	Name = "Collect all Stickers",
 	Default = false,
 	Callback = function(value)
 	    getgenv().acollectstic = value
         while acollectstic and task.wait(0.1) do 
-            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(1)
+            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(ir)
+            ir += 1
+            if ir == 1000 then
+                ir = 0
+            end
         end
     end,
 }, "Toggle")
