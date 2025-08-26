@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local currentkey = "Afkkgfkdkfkgkldlfkfgklfl"
+local currentkey = "Akgkfkfhdkfgjkfl"
 local Window = Library.CreateLib("                                               ERXWare Loader", "LightTheme")
 
 local Tab = Window:NewTab("Main")
