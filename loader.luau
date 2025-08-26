@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local currentkey = "ABC-YR3-DK9-89D-SPX-YAR-98D"
-local Window = Library.CreateLib("                                               ERXWare Loader", "LightTheme")
+local Window = Library.CreateLib("                                               ERXWare Loader", "DarkTheme")
 
 local Tab = Window:NewTab("Main")
 local Section = Tab:NewSection("Key System")
