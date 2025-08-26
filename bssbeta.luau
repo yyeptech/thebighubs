@@ -523,7 +523,7 @@ sections.MainSection13:Toggle({
 	end,
 }, "Toggle")
 sections.MainSection14:Button({
-	Name = "Activate all Dispensers",
+	Name = "Use all Dispensers",
 	Callback = function()
         game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Treat Dispenser")
         task.wait()
@@ -535,7 +535,7 @@ sections.MainSection14:Button({
     end,
 })
 sections.MainSection15:Button({
-	Name = "Activate all Field Boosts",
+	Name = "Use all Field Boosts",
 	Callback = function()
         game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Blue Field Booster")
         task.wait()
