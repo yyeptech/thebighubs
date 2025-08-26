@@ -79,7 +79,7 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().adig = value
-	    while getgenv().adig and task.wait(0.001) do
+	    while getgenv().adig and task.wait() do
 	        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToolCollect"):FireServer()
 	    end
 	end,
@@ -509,7 +509,7 @@ sections.MainSection13:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().aafk = value
-	    while getgenv().aafk and task.wait(3) do
+	    while getgenv().aafk and task.wait(5) do
             afk:CaptureController()
             afk:ClickButton1(Vector2.new())
             print("anti afk working")
@@ -520,14 +520,14 @@ if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
+    sections.MainSection8:Label({
+        Text = "Build: Early Access"
+    })
 else 
     sections.MainSection8:Label({
         Text = "Build: Source/Dev"
     })
 end
-sections.MainSection8:Label({
-    Text = "Build: Early Access"
-})
 sections.MainSection8:Label({
 	Text = "Our Discord: discord.gg/XAqn48p6Jm"
 })
