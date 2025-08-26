@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "ERXWare DLC",
-	Subtitle = "Bee Swarm Simulator V4.2",
+	Subtitle = "Bee Swarm Simulator V4.3",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -38,6 +38,7 @@ local sections = {
     MainSection12 = tabs.Main:Section({ Side = "Right" }),
     MainSection13 = tabs.Other:Section({ Side = "Left" }),
     MainSection14 = tabs.Disps:Section({ Side = "Left" }),
+    MainSection15 = tabs.Disps:Section({ Side = "Right" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -73,6 +74,9 @@ sections.MainSection13:Header({
 	Name = "Anti AFK"
 })
 sections.MainSection14:Header({
+	Name = "Items"
+})
+sections.MainSection15:Header({
 	Name = "Items"
 })
 local plr = game.Players.LocalPlayer
@@ -228,7 +232,6 @@ sections.MainSection5:Toggle({
             elseif curspeed == 0 and emove then
                 for emov = 1, 550 do
                     task.wait(0.01)
-                    print(emov)
                     if emov == 550 and curspeed == 0 and turning == 0 then
                         for i = 0, 5 do
                             plr.Character.PrimaryPart.CFrame = CFrame.new(workspace.Honeycombs[localhive].patharrow:WaitForChild("Base").Position) + Vector3.new(0, 2, 0)
@@ -265,7 +268,7 @@ sections.MainSection4:Toggle({
 	Callback = function(value)
 	    getgenv().atp = value
 	    while getgenv().atp and task.wait() and antitp do
-            if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 5 then
+            if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 20 then
                 antitp = false
                 plr.Character.PrimaryPart.CFrame = prevatp
                 antitp = true
@@ -512,7 +515,7 @@ sections.MainSection13:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().aafk = value
-	    while getgenv().aafk and task.wait(5) do
+	    while getgenv().aafk and task.wait(10) do
             afk:CaptureController()
             afk:ClickButton1(Vector2.new())
             print("anti afk working")
@@ -531,12 +534,22 @@ sections.MainSection14:Button({
         game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Strawberry Dispenser")
     end,
 })
+sections.MainSection15:Button({
+	Name = "Activate all Field Boosts",
+	Callback = function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Blue Field Booster")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Red Field Booster")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Field Booster")
+    end,
+}) 
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
     sections.MainSection8:Label({
-        Text = "Build: Early Access"
+        Text = "Build: EA(Early Access)"
     })
 else 
     sections.MainSection8:Label({
@@ -550,8 +563,17 @@ sections.MainSection8:Label({
 	Text = "Developed by yyep"
 })
 sections.MainSection8:Label({
-	Text = "Total functional: 18 functions"
+	Text = "Total functional: 19 functions"
 })
+if getexecutorname() ~= nil then
+    sections.MainSection8:Label({
+        Text = "Executor used: "..tostring(getexecutorname())
+    })
+else
+    sections.MainSection8:Label({
+        Text = "Executor used: not defined"
+    })
+end
 sections.MainSection9:Label({
 	Text = "Activate the Passive Movement at the Center Field ONLY(otherwise, the script may exit the field)"
 })
