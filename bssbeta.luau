@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 
 local Window = MacLib:Window({
-	Title = "ERXWare DLC",
+	Title = "ErecSploit",
 	Subtitle = "Bee Swarm Simulator V4.4",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
