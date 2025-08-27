@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.1",
+	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.3",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -15,17 +15,23 @@ local tabGroups = {
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
 	Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
+    Info = tabGroups.TabGroup1:Tab({ Name = "Information" }),
 }
 local sections = {
 	MainSection1 = tabs.Main:Section({ Side = "Left" }),
     MainSection2 = tabs.Main:Section({ Side = "Right" }),
 	MainSection4 = tabs.Slapples:Section({ Side = "Left" }),
+    MainSection5 = tabs.Main:Section({ Side = "Left" }),
+    MainSection8 = tabs.Info:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Aura"
 })
 sections.MainSection2:Header({
 	Name = "Local Player"
+})
+sections.MainSection5:Header({
+	Name = "Changers"
 })
 
 local plr = game.Players.LocalPlayer
@@ -35,7 +41,7 @@ sections.MainSection1:Slider({
 	Default = 85,
 	Minimum = 5,
 	Maximum = 100,
-	DisplayMethod = "Radius",
+	DisplayMethod = "Cooldown",
 	Precision = 0,
 	Callback = function(Value)
         cd = Value / 100
@@ -48,7 +54,7 @@ sections.MainSection2:Button({
 	Callback = function()
 		if plr.Character.Humanoid.Health > 0 then
             workspace[plr.Name].Humanoid.Health = 0
-            while task.wait(0.01) do
+            while task.wait(0.001) do
                 print("wrok")
                 if workspace[plr.Name]:WaitForChild("Humanoid").Health == 100 then
                     task.wait(0.25)
@@ -65,12 +71,12 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while task.wait() and getgenv().aura do
+		while getgenv().aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 30 and i.isInArena then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20.2 and i.isInArena then 
                             print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("KSHit"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
@@ -121,7 +127,7 @@ sections.MainSection4:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aslapples = value
-		while task.wait() and aslapples do
+		while task.wait() and getgenv().aslapples do
             for _, i in pairs(workspace.Arena.island5.Slapples:GetChildren()) do
 				i.Glove.CFrame = plr.Character.PrimaryPart.CFrame
 			end
@@ -129,7 +135,7 @@ sections.MainSection4:Toggle({
 	end,
 }, "Toggle")
 local speed = 20
-sections.MainSection2:Slider({
+sections.MainSection5:Slider({
 	Name = "Walk Speed",
 	Default = 20,
 	Minimum = 1,
@@ -141,7 +147,7 @@ sections.MainSection2:Slider({
 	end
 }, "Slider")
 local jump = 50
-sections.MainSection2:Slider({
+sections.MainSection5:Slider({
 	Name = "Jump Boost",
 	Default = 20,
 	Minimum = 1,
@@ -152,8 +158,45 @@ sections.MainSection2:Slider({
         jump = Value
 	end
 }, "Slider")
-while task.wait() do
-    plr = game.Players.LocalPlayer
-    plr.Character.Humanoid.WalkSpeed = speed
-    plr.Character.Humanoid.JumpPower = jump
+sections.MainSection5:Toggle({
+	Name = "Toggle Changer",
+	Default = false,
+	Callback = function(value)
+        getgenv().changer = value
+		while task.wait() and getgenv().changer do
+            plr = game.Players.LocalPlayer
+            plr.Character.Humanoid.JumpPower = jump
+            plr.Character.Humanoid.WalkSpeed = speed
+        end
+	end,
+}, "Toggle")
+if tostring(getgenv().invitecode) ~= "nil" then
+    sections.MainSection8:Label({
+        Text = "Key used: ".. tostring(getgenv().invitecode)
+    })
+    sections.MainSection8:Label({
+        Text = "Build: Premium"
+    })
+else 
+    sections.MainSection8:Label({
+        Text = "Build: Source/Dev"
+    })
+end
+sections.MainSection8:Label({
+	Text = "Our Discord: discord.gg/XAqn48p6Jm"
+})
+sections.MainSection8:Label({
+	Text = "Developed by yyep"
+})
+sections.MainSection8:Label({
+	Text = "Total functional: 7 functions"
+})
+if getexecutorname() ~= nil then
+    sections.MainSection8:Label({
+        Text = "Executor used: "..tostring(getexecutorname())
+    })
+else
+    sections.MainSection8:Label({
+        Text = "Executor used: not defined"
+    })
 end
