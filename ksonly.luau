@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles[KILL STREAK ONLY] V1",
+	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.1",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -65,12 +65,12 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while task.wait() and aura do
+		while task.wait() and getgenv().aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 23 then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 30 and i.isInArena then 
                             print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("KSHit"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
@@ -81,7 +81,28 @@ sections.MainSection1:Toggle({
         end
 	end,
 }, "Toggle")
-
+local prevpos = nil
+local ragtoggle = true
+sections.MainSection2:Toggle({
+	Name = "Anti Ragdoll",
+	Default = false,
+	Callback = function(value)
+        getgenv().aragdoll = value
+		while task.wait() and getgenv().aragdoll do
+            plr = game.Players.LocalPlayer
+            if ragtoggle then     
+                prevpos = plr.Character.PrimaryPart.CFrame
+            end
+            if workspace[plr.Name].Humanoid.PlatformStand then
+                ragtoggle = false
+                plr.Character.PrimaryPart.Anchored = true
+                task.wait(1)
+                plr.Character.PrimaryPart.Anchored = false
+                ragtoggle = true
+            end
+        end
+	end,
+}, "Toggle")
 sections.MainSection2:Button({
 	Name = "Anti Void",
 	Default = false,
@@ -132,6 +153,7 @@ sections.MainSection2:Slider({
 	end
 }, "Slider")
 while task.wait() do
+    plr = game.Players.LocalPlayer
     plr.Character.Humanoid.WalkSpeed = speed
     plr.Character.Humanoid.JumpPower = jump
 end
