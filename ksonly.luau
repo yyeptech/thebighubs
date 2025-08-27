@@ -70,7 +70,7 @@ sections.MainSection1:Toggle({
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 30 and i.isInArena then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 30 then 
                             print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("KSHit"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
