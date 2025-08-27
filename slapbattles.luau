@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles V1",
+	Subtitle = "Slap Battles V1.1",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -14,12 +14,12 @@ local tabGroups = {
 }
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
-    Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
+	Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
 }
 local sections = {
 	MainSection1 = tabs.Main:Section({ Side = "Left" }),
-    MainSection2 = tabs.Main:Section({ Side = "Left" }),
-    MainSection4 = tabs.Slapples:Section({ Side = "Left" }),
+    MainSection2 = tabs.Main:Section({ Side = "Right" }),
+	MainSection4 = tabs.Slapples:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Aura"
@@ -28,14 +28,13 @@ sections.MainSection2:Header({
 	Name = "Local Player"
 })
 
-
 local plr = game.Players.LocalPlayer
 local cd = 0.4
 sections.MainSection1:Slider({
 	Name = "Cooldown",
 	Default = 85,
-	Minimum = 25,
-	Maximum = 120,
+	Minimum = 5,
+	Maximum = 100,
 	DisplayMethod = "Radius",
 	Precision = 0,
 	Callback = function(Value)
@@ -59,20 +58,20 @@ sections.MainSection2:Button({
             end
         end
 	end,
-})
-local auraglove = nil
-local auraglove1 = nil
+}) 
+
 sections.MainSection1:Toggle({
-	Name = "Enabled [IN DEV] (Only Default)",
+	Name = "Enabled",
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while task.wait() and aura do
+		while task.wait() and getgenv().aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20 and i.Name ~= plr.Name then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 30 and i.isInArena then 
+                            print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
                         end
@@ -82,7 +81,28 @@ sections.MainSection1:Toggle({
         end
 	end,
 }, "Toggle")
-local speed = 20
+local prevpos = nil
+local ragtoggle = true
+sections.MainSection2:Toggle({
+	Name = "Anti Ragdoll",
+	Default = false,
+	Callback = function(value)
+        getgenv().aragdoll = value
+		while task.wait() and getgenv().aragdoll do
+            plr = game.Players.LocalPlayer
+            if ragtoggle then     
+                prevpos = plr.Character.PrimaryPart.CFrame
+            end
+            if workspace[plr.Name].Humanoid.PlatformStand then
+                ragtoggle = false
+                plr.Character.PrimaryPart.Anchored = true
+                task.wait(0.9)
+                plr.Character.PrimaryPart.Anchored = false
+                ragtoggle = true
+            end
+        end
+	end,
+}, "Toggle")
 sections.MainSection2:Button({
 	Name = "Anti Void",
 	Default = false,
@@ -108,6 +128,7 @@ sections.MainSection4:Toggle({
         end
 	end,
 }, "Toggle")
+local speed = 20
 sections.MainSection2:Slider({
 	Name = "Walk Speed",
 	Default = 20,
@@ -132,6 +153,7 @@ sections.MainSection2:Slider({
 	end
 }, "Slider")
 while task.wait() do
+    plr = game.Players.LocalPlayer
     plr.Character.Humanoid.WalkSpeed = speed
     plr.Character.Humanoid.JumpPower = jump
 end
