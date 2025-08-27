@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Bee Swarm Simulator V4",
+	Subtitle = "Bee Swarm Simulator V4.5",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -19,6 +19,7 @@ local tabs = {
     Exploits = tabGroups.TabGroup1:Tab({ Name = "Exploits / Useful" }),
     Other = tabGroups.TabGroup1:Tab({ Name = "Other" }),
     Teleports = tabGroups.TabGroup1:Tab({ Name = "Teleports" }),
+    Disps = tabGroups.TabGroup1:Tab({ Name = "Dispensers" }),
     Information = tabGroups.TabGroup1:Tab({ Name = "Information" }),
 	Tutor = tabGroups.TabGroup1:Tab({ Name = "Tutorial" }),
 }
@@ -34,7 +35,10 @@ local sections = {
 	MainSection9 = tabs.Tutor:Section({ Side = "Left" }),
     MainSection10 = tabs.Other:Section({ Side = "Left" }),
     MainSection11 = tabs.Teleports:Section({ Side = "Right" }),
-    MainSection12 = tabs.Main:Section({ Side = "Left" }),
+    MainSection12 = tabs.Main:Section({ Side = "Right" }),
+    MainSection13 = tabs.Other:Section({ Side = "Left" }),
+    MainSection14 = tabs.Disps:Section({ Side = "Left" }),
+    MainSection15 = tabs.Disps:Section({ Side = "Right" }),
 }
 sections.MainSection1:Header({
 	Name = "Farming"
@@ -66,6 +70,15 @@ sections.MainSection11:Header({
 sections.MainSection12:Header({
 	Name = "Auto Buy with Tickets"
 })
+sections.MainSection13:Header({
+	Name = "Anti AFK"
+})
+sections.MainSection14:Header({
+	Name = "Items"
+})
+sections.MainSection15:Header({
+	Name = "Items"
+})
 local plr = game.Players.LocalPlayer
 local adig = nil
 local afarm = nil
@@ -75,7 +88,7 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().adig = value
-	    while getgenv().adig and task.wait(0.001) do
+	    while getgenv().adig and task.wait() do
 	        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToolCollect"):FireServer()
 	    end
 	end,
@@ -115,6 +128,8 @@ local Dropdown = sections.MainSection6:Dropdown({
 		convtype = Value
 	end,
 }, "Dropdown")
+local passivetoggle = true
+local amovturn = true
 sections.MainSection6:Toggle({
 	Name = "Auto Convert",
 	Default = false,
@@ -122,6 +137,9 @@ sections.MainSection6:Toggle({
 	    getgenv().aconv = value
 	    turn = 1
 	    prevpos = plr.Character.PrimaryPart.CFrame
+        passivetoggle = true
+	    amovturn = true
+        turning = 0
 	    plr.CoreStats.Pollen.Value = plr.CoreStats.Pollen.Value + 0.00001
 	    for _, i in pairs(workspace.Honeycombs:GetDescendants()) do
             if i.Name == "Owner" and tostring(i.Value) == plr.Name then
@@ -157,8 +175,6 @@ sections.MainSection6:Toggle({
 	    end
 	end,
 }, "Toggle")
-local passivetoggle = true
-local amovturn = true
 sections.MainSection5:Toggle({
 	Name = "Auto Movement",
 	Default = false,
@@ -172,9 +188,9 @@ sections.MainSection5:Toggle({
                     amovturn = false
 					passivetoggle = false
                     plr.Character.Humanoid:MoveTo(targetobj.Position)
-                    plr.Character.Humanoid.MoveToFinished:Connect(function()
+                    targetobj.Destroying:Connect(function()
                         passivetoggle = true
-						amovturn = true
+                        amovturn = true
                     end)
                 elseif (plr.Character.PrimaryPart.Position - targetobj.Position).Magnitude < 60 and targetobj.Transparency < 0.5 and movtype == "Fast" and turnmov then
                     plr.Character.PrimaryPart.CFrame = CFrame.new(targetobj.Position) + Vector3.new(0, -2, 0)
@@ -183,6 +199,10 @@ sections.MainSection5:Toggle({
 	    end
 	end,
 }, "Toggle")
+plr.Character.Humanoid.MoveToFinished:Connect(function()
+    passivetoggle = true
+    amovturn = true
+end)
 local randompos = nil
 local center = nil
 sections.MainSection5:Toggle({
@@ -219,7 +239,6 @@ sections.MainSection5:Toggle({
             elseif curspeed == 0 and emove then
                 for emov = 1, 550 do
                     task.wait(0.01)
-                    print(emov)
                     if emov == 550 and curspeed == 0 and turning == 0 then
                         for i = 0, 5 do
                             plr.Character.PrimaryPart.CFrame = CFrame.new(workspace.Honeycombs[localhive].patharrow:WaitForChild("Base").Position) + Vector3.new(0, 2, 0)
@@ -256,12 +275,10 @@ sections.MainSection4:Toggle({
 	Callback = function(value)
 	    getgenv().atp = value
 	    while getgenv().atp and task.wait() and antitp do
-            if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 5 then
+            if (workspace:FindFirstChildOfClass("SpawnLocation").Position - plr.Character.PrimaryPart.Position).Magnitude < 20 then
                 antitp = false
-                task.wait()
-                antitp = true
-                task.wait()
                 plr.Character.PrimaryPart.CFrame = prevatp
+                antitp = true
             end
             prevatp = plr.Character.PrimaryPart.CFrame
         end
@@ -451,13 +468,18 @@ sections.MainSection11:Button({
 	end,
 })
 local path = nil
+local ir = 1
 sections.MainSection10:Toggle({
 	Name = "Collect all Stickers",
 	Default = false,
 	Callback = function(value)
 	    getgenv().acollectstic = value
         while acollectstic and task.wait(0.1) do 
-            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(1)
+            game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(ir)
+            ir += 1
+            if ir == 1000 then
+                ir = 0
+            end
         end
     end,
 }, "Toggle")
@@ -499,13 +521,48 @@ sections.MainSection12:Toggle({
 	    end
 	end,
 }, "Toggle")
+local afk = game:GetService("VirtualUser")
+sections.MainSection13:Toggle({
+	Name = "Anti AFK",
+	Default = false,
+	Callback = function(value)
+	    getgenv().aafk = value
+	    while getgenv().aafk and task.wait(10) do
+            afk:CaptureController()
+            afk:ClickButton1(Vector2.new())
+            print("anti afk working")
+        end
+	end,
+}, "Toggle")
+sections.MainSection14:Button({
+	Name = "Use all Dispensers",
+	Callback = function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Treat Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Honey Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Blueberry Dispenser")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Strawberry Dispenser")
+    end,
+})
+sections.MainSection15:Button({
+	Name = "Use all Field Boosts",
+	Callback = function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Blue Field Booster")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Red Field Booster")
+        task.wait()
+        game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ToyEvent"):FireServer("Field Booster")
+    end,
+}) 
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
-	sections.MainSection8:Label({
-		Text = "Build: Free"
-	})
+    sections.MainSection8:Label({
+        Text = "Build: Free"
+    })
 else 
     sections.MainSection8:Label({
         Text = "Build: Source/Dev"
@@ -518,8 +575,17 @@ sections.MainSection8:Label({
 	Text = "Developed by yyep"
 })
 sections.MainSection8:Label({
-	Text = "Total functional: 16 functions"
+	Text = "Total functional: 19 functions"
 })
+if getexecutorname() ~= nil then
+    sections.MainSection8:Label({
+        Text = "Executor used: "..tostring(getexecutorname())
+    })
+else
+    sections.MainSection8:Label({
+        Text = "Executor used: not defined"
+    })
+end
 sections.MainSection9:Label({
 	Text = "Activate the Passive Movement at the Center Field ONLY(otherwise, the script may exit the field)"
 })
