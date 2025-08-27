@@ -14,7 +14,6 @@ local tabGroups = {
 }
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
-	Gloves = tabGroups.TabGroup1:Tab({ Name = "Gloves" }),
 	Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
 }
 local sections = {
