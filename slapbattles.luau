@@ -14,10 +14,12 @@ local tabGroups = {
 }
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
+    Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
 }
 local sections = {
 	MainSection1 = tabs.Main:Section({ Side = "Left" }),
     MainSection2 = tabs.Main:Section({ Side = "Left" }),
+    MainSection4 = tabs.Slapples:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Aura"
@@ -58,8 +60,10 @@ sections.MainSection2:Button({
         end
 	end,
 })
+local auraglove = nil
+local auraglove1 = nil
 sections.MainSection1:Toggle({
-	Name = "Enabled",
+	Name = "Enabled [IN DEV] (Only Default)",
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
@@ -68,8 +72,7 @@ sections.MainSection1:Toggle({
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20 then 
-                            print()
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20 and i.Name ~= plr.Name then 
                             game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
                         end
