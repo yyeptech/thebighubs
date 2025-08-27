@@ -80,6 +80,31 @@ sections.MainSection1:Toggle({
 	end,
 }, "Toggle")
 local speed = 20
+sections.MainSection2:Button({
+	Name = "Anti Void",
+	Default = false,
+	Callback = function()
+		local anvoid = Instance.new("Part")
+		local barpos = workspace.DEATHBARRIER.Position
+		anvoid.Transparency = 0.7
+		anvoid.Parent = workspace
+		anvoid.Anchored = true
+		anvoid.Size = Vector3.new(1000000, 10, 1000000)
+		anvoid.Position = Vector3.new(barpos.X, -15, barpos.Z)
+	end,
+}, "Toggle")
+sections.MainSection4:Toggle({
+	Name = "Auto Collect Slapples",
+	Default = false,
+	Callback = function(value)
+        getgenv().aslapples = value
+		while task.wait() and aslapples do
+            for _, i in pairs(workspace.Arena.island5.Slapples:GetChildren()) do
+				i.Glove.CFrame = plr.Character.PrimaryPart.CFrame
+			end
+        end
+	end,
+}, "Toggle")
 sections.MainSection2:Slider({
 	Name = "Walk Speed",
 	Default = 20,
