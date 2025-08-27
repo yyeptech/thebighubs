@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local currentkey = "ABC-Y2R-9D2-84D-99R-13E-SPL"
+local currentkey = "ABC-139-OFG-OV3-ZO3-2O2-PLS"
 local Window = Library.CreateLib("EraSploit Loader", "DarkTheme")
 
 local Tab = Window:NewTab("Main")
