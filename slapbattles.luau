@@ -79,3 +79,31 @@ sections.MainSection1:Toggle({
         end
 	end,
 }, "Toggle")
+local speed = 20
+sections.MainSection2:Slider({
+	Name = "Walk Speed",
+	Default = 20,
+	Minimum = 1,
+	Maximum = 200,
+	DisplayMethod = "Speed",
+	Precision = 0,
+	Callback = function(Value)
+        speed = Value
+	end
+}, "Slider")
+local jump = 50
+sections.MainSection2:Slider({
+	Name = "Jump Boost",
+	Default = 20,
+	Minimum = 1,
+	Maximum = 250,
+	DisplayMethod = "Jump",
+	Precision = 0,
+	Callback = function(Value)
+        jump = Value
+	end
+}, "Slider")
+while task.wait() do
+    plr.Character.Humanoid.WalkSpeed = speed
+    plr.Character.Humanoid.JumpPower = jump
+end
