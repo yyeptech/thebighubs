@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Bee Swarm Simulator V4.4",
+	Subtitle = "Bee Swarm Simulator V4.5",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -128,6 +128,8 @@ local Dropdown = sections.MainSection6:Dropdown({
 		convtype = Value
 	end,
 }, "Dropdown")
+local passivetoggle = true
+local amovturn = true
 sections.MainSection6:Toggle({
 	Name = "Auto Convert",
 	Default = false,
@@ -135,6 +137,9 @@ sections.MainSection6:Toggle({
 	    getgenv().aconv = value
 	    turn = 1
 	    prevpos = plr.Character.PrimaryPart.CFrame
+        passivetoggle = true
+	    amovturn = true
+        turning = 0
 	    plr.CoreStats.Pollen.Value = plr.CoreStats.Pollen.Value + 0.00001
 	    for _, i in pairs(workspace.Honeycombs:GetDescendants()) do
             if i.Name == "Owner" and tostring(i.Value) == plr.Name then
@@ -170,8 +175,6 @@ sections.MainSection6:Toggle({
 	    end
 	end,
 }, "Toggle")
-local passivetoggle = true
-local amovturn = true
 sections.MainSection5:Toggle({
 	Name = "Auto Movement",
 	Default = false,
@@ -198,11 +201,10 @@ sections.MainSection5:Toggle({
 }, "Toggle")
 plr.Character.Humanoid.MoveToFinished:Connect(function()
     passivetoggle = true
-	amovturn = true
+    amovturn = true
 end)
 local randompos = nil
 local center = nil
-
 sections.MainSection5:Toggle({
 	Name = "Passive Movement",
 	Default = false,
