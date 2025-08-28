@@ -121,7 +121,7 @@ sections.MainSection2:Toggle({
             if workspace[plr.Name].Humanoid.PlatformStand then
                 ragtoggle = false
                 plr.Character.PrimaryPart.Anchored = true
-                task.wait(0.15)
+                task.wait(0.8)
                 plr.Character.PrimaryPart.Anchored = false
                 ragtoggle = true
             end
