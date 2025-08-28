@@ -37,7 +37,7 @@ sections.MainSection5:Header({
 	Name = "Changers"
 })
 sections.MainSection9:Header({
-	Name = "Get Glove"
+	Name = "Get Any Glove Exploit"
 })
 
 
@@ -199,7 +199,7 @@ sections.MainSection9:Input({
 	end,
 }, "Input")
 sections.MainSection9:Button({
-	Name = "Equip Glove Exploit",
+	Name = "Equip Glove",
 	Callback = function()
 		for _, i in pairs(game.ReplicatedStorage:GetDescendants()) do
 			if i:IsA("RemoteEvent") and string.match(i.Name, "{")then
