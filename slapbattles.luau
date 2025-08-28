@@ -2,7 +2,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles V1.4",
+	Subtitle = "Slap Battles V1.5",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -54,6 +54,18 @@ sections.MainSection1:Slider({
         cd = Value / 100
 	end
 }, "Slider")
+local Rad = 20
+sections.MainSection1:Slider({
+	Name = "Radius",
+	Default = 20,
+	Minimum = 15,
+	Maximum = 40,
+	DisplayMethod = "Cooldown",
+	Precision = 0,
+	Callback = function(Value)
+        Rad = Value
+	end
+}, "Slider")
 local root1 = nil
 local root2 = nil
 sections.MainSection2:Button({
@@ -78,12 +90,12 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while getgenv().aura do
+		while getgenv(0.001).aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20.2 and i.isInArena then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < Rad and i.isInArena then 
                             print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
                             task.wait(cd)
