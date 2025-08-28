@@ -1,7 +1,8 @@
+
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles V1.3",
+	Subtitle = "Slap Battles V1.4",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -15,6 +16,7 @@ local tabGroups = {
 local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
 	Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
+	Gloves = tabGroups.TabGroup1:Tab({ Name = "Gloves" }),
     Info = tabGroups.TabGroup1:Tab({ Name = "Information" }),
 }
 local sections = {
@@ -23,6 +25,7 @@ local sections = {
 	MainSection4 = tabs.Slapples:Section({ Side = "Left" }),
     MainSection5 = tabs.Main:Section({ Side = "Left" }),
     MainSection8 = tabs.Info:Section({ Side = "Left" }),
+	MainSection9 = tabs.Gloves:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Aura"
@@ -33,6 +36,10 @@ sections.MainSection2:Header({
 sections.MainSection5:Header({
 	Name = "Changers"
 })
+sections.MainSection9:Header({
+	Name = "Get Glove"
+})
+
 
 local plr = game.Players.LocalPlayer
 local cd = 0.7
@@ -170,6 +177,25 @@ sections.MainSection5:Toggle({
         end
 	end,
 }, "Toggle")
+local glove = nil
+sections.MainSection9:Input({
+	Name = "Glove",
+	Placeholder = "Write name",
+	AcceptedCharacters = "All",
+	Callback = function(input)
+		glove = input
+	end,
+}, "Input")
+sections.MainSection9:Button({
+	Name = "Equip Glove Exploit",
+	Callback = function()
+		for _, i in pairs(game.ReplicatedStorage:GetDescendants()) do
+			if i:IsA("RemoteEvent") and string.match(i.Name, "{")then
+				i:FireServer(glove)
+			end
+		end
+	end,
+}) 
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
