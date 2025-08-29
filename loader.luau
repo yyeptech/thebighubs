@@ -16,6 +16,12 @@ Section:NewButton("Load", "Activate", function()
             loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/brohaven.luau"))()
         elseif game.placeId == 1537690962 then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/bss.luau"))()
+		elseif game.placeId == 6403373529 then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/slapfree.luau"))()
+        elseif game.placeId == 11520107397 then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/ksfree.luau"))()
+        elseif game.placeId == 124596094333302 then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/slapfree.luau"))()
         else
             game.Players.LocalPlayer:Kick("Invalid Game.")
         end
