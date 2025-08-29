@@ -2,8 +2,8 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles V1.5",
-	Size = UDim2.fromOffset(850, 625),
+	Subtitle = "Slap Battles V1.6",
+	Size = UDim2.fromOffset(890, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
 	ShowUserInfo = true,
@@ -59,7 +59,7 @@ sections.MainSection1:Slider({
 	Name = "Radius",
 	Default = 20,
 	Minimum = 15,
-	Maximum = 40,
+	Maximum = 120,
 	DisplayMethod = "Cooldown",
 	Precision = 0,
 	Callback = function(Value)
@@ -90,7 +90,7 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while getgenv(0.001).aura do
+		while getgenv().aura and task.wait(0.0001) do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
@@ -98,6 +98,32 @@ sections.MainSection1:Toggle({
                         if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < Rad and i.isInArena then 
                             print()
                             game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
+                            task.wait(cd)
+                        end
+                    end
+                end
+            end
+        end
+	end,
+}, "Toggle")
+local extendauraprev = nil
+sections.MainSection1:Toggle({
+	Name = "Extended Aura(use if radius > 20)[BETA]",
+	Default = false,
+	Callback = function(value)
+        getgenv().exaura = value
+		while getgenv().exaura do
+            plr = game.Players.LocalPlayer
+            for _, i in pairs(game.Workspace:GetChildren()) do
+                for _, is in pairs(game.Players:GetPlayers()) do
+                    if i.Name == is.Name then
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < Rad and i.isInArena and not i.Humanoid.PlatformStand then 
+							extendauraprev = plr.Character.PrimaryPart.CFrame
+							plr.Character.PrimaryPart.CFrame = CFrame.new(game.Workspace[i.Name].Torso.Position)
+							task.wait(plr:GetNetworkPing() + 0.015)
+							print(plr:GetNetworkPing())
+                            game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
+							plr.Character.PrimaryPart.CFrame = extendauraprev
                             task.wait(cd)
                         end
                     end
