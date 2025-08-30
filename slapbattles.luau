@@ -90,7 +90,7 @@ sections.MainSection1:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while getgenv().aura and task.wait(0.0001) do
+		while getgenv().aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
