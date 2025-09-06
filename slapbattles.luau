@@ -28,6 +28,7 @@ local sections = {
     MainSection8 = tabs.Info:Section({ Side = "Left" }),
 	MainSection9 = tabs.Gloves:Section({ Side = "Left" }),
 	MainSection10 = tabs.Ability:Section({ Side = "Left" }),
+	MainSection11 = tabs.Ability:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
 	Name = "Aura V1.5"
@@ -44,7 +45,9 @@ sections.MainSection9:Header({
 sections.MainSection10:Header({
 	Name = "Admin"
 })
-
+sections.MainSection11:Header({
+	Name = "Brick"
+})
 
 local plr = game.Players.LocalPlayer
 local cd = 0.7
@@ -111,6 +114,34 @@ sections.MainSection1:Toggle({
                     end
                 end
             end
+        end
+	end,
+}, "Toggle")
+sections.MainSection1:Toggle({
+	Name = "Auto Slaps V1",
+	Default = false,
+	Callback = function(value)
+        getgenv().slaps = value
+		while getgenv().slaps and task.wait() do
+            for _, i in pairs(game.Workspace:GetChildren()) do
+                if game.Players:FindFirstChild(i.Name) then
+                    print()
+                    workspace[plr.Name].HumanoidRootPart.CFrame = workspace[i.Name].Torso.CFrame
+                    task.wait()
+                    workspace[plr.Name].HumanoidRootPart.Anchored = false
+                    task.wait()
+                    game:GetService("ReplicatedStorage"):FindFirstChild("GeneralHit"):FireServer(game.Workspace[i.Name].Torso)
+                    task.wait(plr:GetNetworkPing() + 0.25)
+                    workspace[plr.Name].HumanoidRootPart.CFrame = CFrame.new(0, 250, 0)
+                    task.wait()
+                    workspace[plr.Name].HumanoidRootPart.Anchored = true
+                    task.wait(cd)
+                end
+            end
+		end
+    
+        if getgenv().slaps == false then
+            workspace[plr.Name].HumanoidRootPart.Anchored = false
         end
 	end,
 }, "Toggle")
@@ -225,6 +256,16 @@ sections.MainSection10:Toggle({
         getgenv().fling = value
 		while task.wait(0.05) and getgenv().fling do
             game:GetService("ReplicatedStorage"):WaitForChild("AdminAbility"):FireServer("Fling")
+        end
+	end,
+}, "Toggle")
+sections.MainSection11:Toggle({
+	Name = "Fast Bricks(requires equipped brick glove)",
+	Default = false,
+	Callback = function(value)
+        getgenv().fbr = value
+		while task.wait() and getgenv().fbr do
+            game:GetService("ReplicatedStorage"):WaitForChild("lbrick"):FireServer()
         end
 	end,
 }, "Toggle")
