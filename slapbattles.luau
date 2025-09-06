@@ -2,7 +2,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "EraSploit",
-	Subtitle = "Slap Battles V2 [FIRST STEP]",
+	Subtitle = "Slap Battles V2 [THE FIRST STEP]",
 	Size = UDim2.fromOffset(890, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -286,7 +286,10 @@ sections.MainSection9:Button({
 			end
 		end
 	end,
-}) 
+})
+sections.MainSection8:Label({
+	Text = "DEVELOPMENT WAS FROZEN"
+})
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
