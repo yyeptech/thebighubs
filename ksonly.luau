@@ -65,9 +65,20 @@ sections.MainSection2:Button({
         end
 	end,
 }) 
-
+local Rad = 20
+sections.MainSection1:Slider({
+	Name = "Radius",
+	Default = 20,
+	Minimum = 15,
+	Maximum = 60,
+	DisplayMethod = "Radius",
+	Precision = 0,
+	Callback = function(Value)
+        Rad = Value
+	end
+}, "Slider")
 sections.MainSection1:Toggle({
-	Name = "Enabled (Only Default and Dual)",
+	Name = "Enabled",
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
