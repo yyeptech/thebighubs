@@ -1,6 +1,6 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
-	Title = "EraSploit",
+	Title = "Raven Hub",
 	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.5",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
