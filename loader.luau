@@ -1,6 +1,6 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 local currentkey = "ABC-09G-IG3-KLF-POD-YRE-090"
-local Window = Library.CreateLib("EraSploit Loader", "DarkTheme")
+local Window = Library.CreateLib("Raven Loader", "DarkTheme")
 
 local Tab = Window:NewTab("Main")
 local Section = Tab:NewSection("Key System")
@@ -10,7 +10,7 @@ end)
 
 local status = Section:NewLabel("Waiting...")
 Section:NewButton("Load", "Activate", function()
-    if getgenv().invitecode == "erasploitisgood" then
+    if getgenv().invitecode == "ravenpower" then
         status:UpdateLabel("Loading...")
         if game.placeId == 4924922222 then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/brohaven.luau"))()
