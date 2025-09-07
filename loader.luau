@@ -10,7 +10,7 @@ end)
 
 local status = Section:NewLabel("Waiting...")
 Section:NewButton("Load", "Activate", function()
-    if getgenv().invitecode == "ravenpower" then
+    if getgenv().invitecode == "useexecfree" then
         status:UpdateLabel("Loading...")
         if game.placeId == 4924922222 then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/yyeptech/thebighubs/refs/heads/main/brohaven.luau"))()
