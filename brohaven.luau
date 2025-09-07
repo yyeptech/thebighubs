@@ -119,18 +119,9 @@ sections.MainSectionTp:Button({
 	end,
 })
 sections.MainSection2:Button({
-	Name = "Equip All Tools(Requires open tools menu)",
+	Name = "Equip All Tools [PENDING FIX]",
 	Callback = function()
-        for _, i in pairs(game.Players.LocalPlayer.PlayerGui.NoResetGUIHandler.MainToolMenu.Catalog.Container.ScrollingFrame:GetChildren()) do
-            if i.Name ~= "UIGridLayout" then
-                game:GetService("ReplicatedStorage").RE["1Too1l"]:InvokeServer("PickingTools", i.Name)
-                task.wait()
-            end
-        end
-        for _, i in pairs(plr.Backpack:GetChildren()) do
-            i.Parent = workspace[plr.Name]
-        end
-        
+        print("Pending Fix")
 	end,
 })
 
