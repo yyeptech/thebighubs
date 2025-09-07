@@ -118,31 +118,10 @@ sections.MainSection1:Toggle({
 	end,
 }, "Toggle")
 sections.MainSection1:Toggle({
-	Name = "Auto Slaps V1",
+	Name = "Auto Slaps V1 [Pending Fix]",
 	Default = false,
 	Callback = function(value)
-        getgenv().slaps = value
-		while getgenv().slaps and task.wait() do
-            for _, i in pairs(game.Workspace:GetChildren()) do
-                if game.Players:FindFirstChild(i.Name) then
-                    print()
-                    workspace[plr.Name].HumanoidRootPart.CFrame = workspace[i.Name].Torso.CFrame
-                    task.wait()
-                    workspace[plr.Name].HumanoidRootPart.Anchored = false
-                    task.wait()
-                    game:GetService("ReplicatedStorage"):FindFirstChild("GeneralHit"):FireServer(game.Workspace[i.Name].Torso)
-                    task.wait(plr:GetNetworkPing() + 0.25)
-                    workspace[plr.Name].HumanoidRootPart.CFrame = CFrame.new(0, 250, 0)
-                    task.wait()
-                    workspace[plr.Name].HumanoidRootPart.Anchored = true
-                    task.wait(cd)
-                end
-            end
-		end
-    
-        if getgenv().slaps == false then
-            workspace[plr.Name].HumanoidRootPart.Anchored = false
-        end
+        print("Pending Fix")
 	end,
 }, "Toggle")
 local prevpos = nil
@@ -244,7 +223,7 @@ sections.MainSection10:Toggle({
 	Default = false,
 	Callback = function(value)
         getgenv().invis = value
-		while task.wait(0.05) and getgenv().anvil do
+		while task.wait(0.05) and getgenv().invis do
             game:GetService("ReplicatedStorage"):WaitForChild("AdminAbility"):FireServer("Invisibility")
         end
 	end,
@@ -288,7 +267,7 @@ sections.MainSection9:Button({
 	end,
 })
 sections.MainSection8:Label({
-	Text = "DEVELOPMENT WAS FROZEN"
+	Text = "THE DEVELOPMENT WAS FROZEN"
 })
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
