@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "Execsense Injected",
-	Subtitle = "Brookhaven v1.6",
+	Subtitle = "Brookhaven V1.6",
 	Size = UDim2.fromOffset(890, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
