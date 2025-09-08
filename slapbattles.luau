@@ -77,7 +77,7 @@ sections.MainSection1:Slider({
 local root1 = nil
 local root2 = nil
 sections.MainSection2:Button({
-	Name = "GodMode Exploit",
+	Name = "GodMode Exploit (On default glove doesnt work)",
 	Callback = function()
 		if plr.Character.Humanoid.Health > 0 then
             workspace[plr.Name].Humanoid.Health = 0
@@ -96,7 +96,7 @@ sections.MainSection2:Button({
 local target = nil
 local path = nil
 sections.MainSection1:Toggle({
-	Name = "Enabled (Only Default and Dual)",
+	Name = "Enabled (Only Default, Dual and some gloves)",
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
@@ -117,11 +117,31 @@ sections.MainSection1:Toggle({
         end
 	end,
 }, "Toggle")
+local turning = 0
 sections.MainSection1:Toggle({
-	Name = "Auto Slaps V1 [Pending Fix]",
+	Name = "Auto Slaps V1 (Dual Glove)",
 	Default = false,
 	Callback = function(value)
-        print("Pending Fix")
+        getgenv().aslap = value
+		while getgenv().aslap and task.wait() do
+            plr = game.Players.LocalPlayer
+            for _, i in pairs(game.Workspace:GetChildren()) do
+                if game.Players:FindFirstChild(i.Name) then
+                    if getgenv().aslap and turning == 0 then
+                        workspace[plr.Name].HumanoidRootPart.CFrame = CFrame.new(workspace[i.Name].HumanoidRootPart.Position)
+                        task.wait(plr:GetNetworkPing() + 0.2)
+                        game:GetService("ReplicatedStorage"):FindFirstChild("GeneralHit"):FireServer(game.Workspace[i.Name]["Torso"])
+                        task.wait(plr:GetNetworkPing() + 0.2)
+                        CFrame.new(0, 150, 100)
+                    end
+                end
+            end
+            if plr.Character.Humanoid.Health == 0 and turning == 0 then
+                turning = 1
+            elseif plr.Character.Humanoid.Health == 100 and turning == 0 then
+                turning = 0
+            end
+        end
 	end,
 }, "Toggle")
 local prevpos = nil
