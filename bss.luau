@@ -2,7 +2,7 @@ local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/re
 
 local Window = MacLib:Window({
 	Title = "Execsense Injected",
-	Subtitle = "Bee Swarm Simulator V4.5",
+	Subtitle = "Bee Swarm Simulator V4.6",
 	Size = UDim2.fromOffset(860, 570),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -213,7 +213,7 @@ sections.MainSection5:Toggle({
         getgenv().passiv = value
         print(passiv)
         passivetoggle = true
-        while task.wait(0.15) and passiv do
+        while task.wait(0.15) and getgenv().passiv do
             randompos = Vector3.new(plr.Character.PrimaryPart.Position.X + math.random(-35, 35), plr.Character.PrimaryPart.Position.Y, plr.Character.PrimaryPart.Position.Z + math.random(-35, 35))
             if (randompos - center).Magnitude < 35 and movtype == "Legit" and passivetoggle then
                 plr.Character.Humanoid:MoveTo(randompos)
@@ -233,12 +233,14 @@ sections.MainSection5:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().emove = value
-        while emove and task.wait() do
+	    turning = 0
+        while getgenv().emove and task.wait() do
             if curspeed ~= 0 then
                 emov = 0
             elseif curspeed == 0 and emove then
                 for emov = 1, 550 do
                     task.wait(0.01)
+                    print(emov)
                     if emov == 550 and curspeed == 0 and turning == 0 then
                         for i = 0, 5 do
                             plr.Character.PrimaryPart.CFrame = CFrame.new(workspace.Honeycombs[localhive].patharrow:WaitForChild("Base").Position) + Vector3.new(0, 2, 0)
@@ -314,7 +316,7 @@ sections.MainSection4:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().magic = value
-        if magic then    
+        if getgenv().magic then    
             MagicPrev = plr.Character.PrimaryPart.CFrame
 			plr.Character.PrimaryPart.CFrame = CFrame.new(0, 1000, 0)
             task.wait()
@@ -324,13 +326,13 @@ sections.MainSection4:Toggle({
             local mouse = game.Players.LocalPlayer:GetMouse()
             local input = game:GetService("UserInputService")
             mouse.Button1Down:Connect(function()
-                if magic then    
+                if getgenv().magic then    
                     game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(mouse.Hit.Position)
                     plr.Character.PrimaryPart.Anchored = true
                 end
             end)
             input.InputBegan:Connect(function(key)
-                if key.KeyCode == Enum.KeyCode.E and magic then
+                if key.KeyCode == Enum.KeyCode.E and getgenv().magic then
                     plr.Character.PrimaryPart.Anchored = false
                 end
             end)
@@ -358,13 +360,13 @@ sections.MainSection4:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().antitarg = value
-        while antitarg and task.wait() do 
+        while getgenv().antitarg and task.wait() do 
             if targtype == "All Mobs" then
                 AntiPrev = plr.Character.PrimaryPart.CFrame
                 plr.Character.PrimaryPart.CFrame = CFrame.new(0, 500, 0)
-                task.wait()
+                task.wait(0.003)
                 plr.Character.PrimaryPart.Anchored = true
-                task.wait()
+                task.wait(0.003)
                 plr.Character.PrimaryPart.CFrame = AntiPrev
                 task.wait()
                 plr.Character.PrimaryPart.Anchored = false
@@ -474,9 +476,9 @@ sections.MainSection10:Toggle({
 	Default = false,
 	Callback = function(value)
 	    getgenv().acollectstic = value
-        while acollectstic and task.wait(0.1) do 
+        while getgenv().acollectstic and task.wait(0.1) do 
             game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("HiddenStickerEvent"):FireServer(ir)
-            ir += 1
+            ir = ir + 1
             if ir == 1000 then
                 ir = 0
             end
