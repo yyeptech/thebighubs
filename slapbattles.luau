@@ -286,9 +286,6 @@ sections.MainSection9:Button({
 		end
 	end,
 })
-sections.MainSection8:Label({
-	Text = "THE DEVELOPMENT WAS FROZEN"
-})
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
