@@ -1,8 +1,8 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "Execsense Injected",
-	Subtitle = "Slap Battles V1.5",
-	Size = UDim2.fromOffset(850, 625),
+	Subtitle = "Slap Battles V2 [THE FIRST STEP]",
+	Size = UDim2.fromOffset(890, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
 	ShowUserInfo = true,
@@ -16,6 +16,7 @@ local tabs = {
 	Main = tabGroups.TabGroup1:Tab({ Name = "Fight Helpers" }),
 	Slapples = tabGroups.TabGroup1:Tab({ Name = "Slapples" }),
 	Gloves = tabGroups.TabGroup1:Tab({ Name = "Gloves" }),
+	Ability = tabGroups.TabGroup1:Tab({ Name = "Abilities" }),
     Info = tabGroups.TabGroup1:Tab({ Name = "Information" }),
 }
 local sections = {
@@ -25,9 +26,11 @@ local sections = {
     MainSection5 = tabs.Main:Section({ Side = "Left" }),
     MainSection8 = tabs.Info:Section({ Side = "Left" }),
 	MainSection9 = tabs.Gloves:Section({ Side = "Left" }),
+	MainSection10 = tabs.Ability:Section({ Side = "Left" }),
+	MainSection11 = tabs.Ability:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
-	Name = "Aura"
+	Name = "Aura V1.5"
 })
 sections.MainSection2:Header({
 	Name = "Local Player"
@@ -38,7 +41,12 @@ sections.MainSection5:Header({
 sections.MainSection9:Header({
 	Name = "Get Any Glove Exploit"
 })
-
+sections.MainSection10:Header({
+	Name = "Admin"
+})
+sections.MainSection11:Header({
+	Name = "Brick"
+})
 
 local plr = game.Players.LocalPlayer
 local cd = 0.7
@@ -46,7 +54,7 @@ sections.MainSection1:Slider({
 	Name = "Cooldown",
 	Default = 85,
 	Minimum = 5,
-	Maximum = 100,
+	Maximum = 120,
 	DisplayMethod = "Cooldown",
 	Precision = 0,
 	Callback = function(Value)
@@ -58,8 +66,8 @@ sections.MainSection1:Slider({
 	Name = "Radius",
 	Default = 20,
 	Minimum = 15,
-	Maximum = 40,
-	DisplayMethod = "Cooldown",
+	Maximum = 60,
+	DisplayMethod = "Radius",
 	Precision = 0,
 	Callback = function(Value)
         Rad = Value
@@ -84,25 +92,35 @@ sections.MainSection2:Button({
 	end,
 }) 
 
+local target = nil
+local path = nil
 sections.MainSection1:Toggle({
-	Name = "Enabled",
+	Name = "Enabled (Only Default and Dual)",
 	Default = false,
 	Callback = function(value)
         getgenv().aura = value
-		while getgenv(0.001).aura do
+		while getgenv().aura do
             plr = game.Players.LocalPlayer
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
                         if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < Rad and i.isInArena then 
                             print()
-                            game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Right Arm"])
+                            game:GetService("ReplicatedStorage"):FindFirstChild("b"):FireServer(game.Workspace[i.Name]["Torso"])
+                            game:GetService("ReplicatedStorage"):FindFirstChild("GeneralHit"):FireServer(game.Workspace[i.Name]["Torso"])
                             task.wait(cd)
                         end
                     end
                 end
             end
         end
+	end,
+}, "Toggle")
+sections.MainSection1:Toggle({
+	Name = "Auto Slaps V1 [Pending Fix]",
+	Default = false,
+	Callback = function(value)
+        print("Pending Fix")
 	end,
 }, "Toggle")
 local prevpos = nil
@@ -189,6 +207,46 @@ sections.MainSection5:Toggle({
 	end,
 }, "Toggle")
 local glove = nil
+sections.MainSection10:Toggle({
+	Name = "Auto Use Anvil",
+	Default = false,
+	Callback = function(value)
+        getgenv().anvil = value
+		while task.wait(0.05) and getgenv().anvil do
+            game:GetService("ReplicatedStorage"):WaitForChild("AdminAbility"):FireServer("Anvil")
+        end
+	end,
+}, "Toggle")
+sections.MainSection10:Toggle({
+	Name = "Auto Use Invisibility",
+	Default = false,
+	Callback = function(value)
+        getgenv().invis = value
+		while task.wait(0.05) and getgenv().invis do
+            game:GetService("ReplicatedStorage"):WaitForChild("AdminAbility"):FireServer("Invisibility")
+        end
+	end,
+}, "Toggle")
+sections.MainSection10:Toggle({
+	Name = "Auto Use Fling",
+	Default = false,
+	Callback = function(value)
+        getgenv().fling = value
+		while task.wait(0.05) and getgenv().fling do
+            game:GetService("ReplicatedStorage"):WaitForChild("AdminAbility"):FireServer("Fling")
+        end
+	end,
+}, "Toggle")
+sections.MainSection11:Toggle({
+	Name = "Fast Bricks(requires equipped brick glove)",
+	Default = false,
+	Callback = function(value)
+        getgenv().fbr = value
+		while task.wait() and getgenv().fbr do
+            game:GetService("ReplicatedStorage"):WaitForChild("lbrick"):FireServer()
+        end
+	end,
+}, "Toggle")
 sections.MainSection9:Input({
 	Name = "Glove",
 	Placeholder = "Write name",
@@ -206,7 +264,10 @@ sections.MainSection9:Button({
 			end
 		end
 	end,
-}) 
+})
+sections.MainSection8:Label({
+	Text = "THE DEVELOPMENT WAS FROZEN"
+})
 if tostring(getgenv().invitecode) ~= "nil" then
     sections.MainSection8:Label({
         Text = "Key used: ".. tostring(getgenv().invitecode)
@@ -226,7 +287,7 @@ sections.MainSection8:Label({
 	Text = "Developed by yyep"
 })
 sections.MainSection8:Label({
-	Text = "Total functional: 8 functions"
+	Text = "Total functional: 9 functions"
 })
 if getexecutorname() ~= nil then
     sections.MainSection8:Label({
