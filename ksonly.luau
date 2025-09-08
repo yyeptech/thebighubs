@@ -186,7 +186,7 @@ if tostring(getgenv().invitecode) ~= "nil" then
         Text = "Key used: ".. tostring(getgenv().invitecode)
     })
     sections.MainSection8:Label({
-        Text = "Build: Premium"
+        Text = "Build: Early Access"
     })
 else 
     sections.MainSection8:Label({
