@@ -1,7 +1,7 @@
 local MacLib = loadstring(game:HttpGet("https://github.com/biggaboy212/Maclib/releases/latest/download/maclib.txt"))()
 local Window = MacLib:Window({
 	Title = "Execsense Injected",
-	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.3",
+	Subtitle = "Slap Battles[KILL STREAK ONLY] V1.5",
 	Size = UDim2.fromOffset(850, 625),
 	DragStyle = 1,
 	DisabledWindowControls = {},
@@ -25,7 +25,7 @@ local sections = {
     MainSection8 = tabs.Info:Section({ Side = "Left" }),
 }
 sections.MainSection1:Header({
-	Name = "Aura"
+	Name = "Aura V1.5"
 })
 sections.MainSection2:Header({
 	Name = "Local Player"
@@ -65,7 +65,18 @@ sections.MainSection2:Button({
         end
 	end,
 }) 
-
+local Rad = 20
+sections.MainSection1:Slider({
+	Name = "Radius",
+	Default = 20,
+	Minimum = 15,
+	Maximum = 60,
+	DisplayMethod = "Radius",
+	Precision = 0,
+	Callback = function(Value)
+        Rad = Value
+	end
+}, "Slider")
 sections.MainSection1:Toggle({
 	Name = "Enabled",
 	Default = false,
@@ -76,9 +87,9 @@ sections.MainSection1:Toggle({
             for _, i in pairs(game.Workspace:GetChildren()) do
                 for _, is in pairs(game.Players:GetPlayers()) do
                     if i.Name == is.Name then
-                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < 20.2 and i.isInArena then 
+                        if (game.Workspace[i.Name].Torso.Position - game.Workspace[plr.Name].Torso.Position).Magnitude < Rad and i.isInArena then 
                             print()
-                            game:GetService("ReplicatedStorage"):FindFirstChild("KSHit"):FireServer(game.Workspace[i.Name]["Right Arm"])
+                            game:GetService("ReplicatedStorage"):FindFirstChild("KSHit"):FireServer(game.Workspace[i.Name]["Torso"])
                             task.wait(cd)
                         end
                     end
