@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
-local currentkey = "EXC-U3V-VRS-9C9-10F-3FF-GGS-303"
+local currentkey = "EXC-S29-OD3-7GG-9XD-03D-DAR-93D"
 local Window = Library.CreateLib("Execsense Loader", "DarkTheme")
 
 local Tab = Window:NewTab("Main")
